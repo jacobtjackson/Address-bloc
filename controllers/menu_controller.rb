@@ -14,6 +14,7 @@ class MenuController
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
     puts "5 - Exit"
+    puts "6 - View entry number n"
     print "Enter your selection: "
     selection = gets.to_i
     puts "You picked #{selection}"
@@ -37,6 +38,10 @@ class MenuController
     when 5
       puts "Good-bye!"
       exit(0)
+    when 6
+      system "clear"
+      view_by_entry
+      main_menu
     else
       system "clear"
       puts "Sorry, that is not a valid input"
@@ -47,23 +52,37 @@ class MenuController
     @address_book.entries.each do |entry|
       system "clear"
       puts entry.to_s
-        entry_submenu(entry)
-      end
-      system "clear"
-      puts "End of entries"
+      entry_submenu(entry)
+    end
+    system "clear"
+    puts "End of entries"
   end
+
+  def view_by_entry
+    system "clear"
+    puts "Enter your selection"
+    selection = gets.to_i
+    if selection >= 0 && selection < @address_book.entries.size
+      entry = @address_book.entries[selection]
+      puts entry.to_s
+    else
+      system "clear"
+      puts "#{selection} is not a valid input"
+    end
+  end
+
   def create_entry
-      system "clear"
-      puts "New AddressBloc Entry"
-      print "Name: "
-      name = gets.chomp
-      print "Phone number: "
-      phone = gets.chomp
-      print "Email: "
-      email = gets.chomp
-      @address_book.add_entry(name, phone, email)
-      system "clear"
-      puts "New entry created"
+    system "clear"
+    puts "New AddressBloc Entry"
+    print "Name: "
+    name = gets.chomp
+    print "Phone number: "
+    phone = gets.chomp
+    print "Email: "
+    email = gets.chomp
+    @address_book.add_entry(name, phone, email)
+    system "clear"
+    puts "New entry created"
   end
 
   def search_entries
@@ -73,6 +92,7 @@ class MenuController
   def read_csv
 
   end
+
   def entry_submenu(entry)
     puts "n - next entry"
     puts "d - delete entry"
@@ -90,6 +110,6 @@ class MenuController
       system "clear"
       puts "#{selection} is not a valid input"
       entries_submenu(entry)
+    end
   end
-end
 end
